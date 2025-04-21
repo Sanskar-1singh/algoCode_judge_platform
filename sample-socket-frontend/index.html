@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <h1>hello world</h1>
+     <button type="button" id="btn">click Me</button>
+     <button id="connectionId">fetchConnectionId</button>
+
+     <div id="connectionResponse">
+
+     </div>
+     <div id="submissionResponse">
+
+     </div>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+   <script>
+    const socket=io('http://localhost:3001');
+
+    socket.on('connect',()=>{
+        console.log('connected to server');
+    })
+      
+    document.getElementById('btn').addEventListener('click',()=>{
+        socket.emit('setUserId','312');
+    })
+
+    document.getElementById('connectionId').addEventListener('click',()=>{
+        socket.emit('getConnectionId','312')
+    })
+
+    socket.on('connectionId',(data)=>{
+        document.getElementById('connectionResponse').textContent=data;
+    })
+
+    socket.on('submissionPayload',(data)=>{
+        document.getElementById('submissionResponse').textContent=JSON.stringify(data);
+    })
+    socket.on('disconnect',()=>{
+        console.log('disconnected from server');
+    })
+    </script>
+</body> 
+</html>
